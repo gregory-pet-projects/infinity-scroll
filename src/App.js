@@ -35,23 +35,30 @@ const App = () => {
   }, []);
 
   return (
-    <div
-      style={{ height: ROW_HEIGHT * VISIBLE_ROWS + 1, overflow: "auto" }}
-      ref={ref}
-    >
-      <div style={{ height: getTopHeight() }}></div>
-      <table>
-        <tbody>
-          {data.slice(start, start + VISIBLE_ROWS + 1).map((row, rowIndex) => (
-            <tr key={`row-${start + rowIndex}`} style={{ height: ROW_HEIGHT }}>
-              {row.map((text, colIndex) => (
-                <td key={`col-${start + colIndex}`}>{text}</td>
+    <div className="wrapper">
+      <div
+        style={{ height: ROW_HEIGHT * VISIBLE_ROWS + 1, overflow: "auto" }}
+        ref={ref}
+      >
+        <div style={{ height: getTopHeight() }}></div>
+        <table>
+          <tbody>
+            {data
+              .slice(start, start + VISIBLE_ROWS + 1)
+              .map((row, rowIndex) => (
+                <tr
+                  key={`row-${start + rowIndex}`}
+                  style={{ height: ROW_HEIGHT }}
+                >
+                  {row.map((text, colIndex) => (
+                    <td key={`col-${start + colIndex}`}>{text}</td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div style={{ height: getBottomHeight() }}></div>
+          </tbody>
+        </table>
+        <div style={{ height: getBottomHeight() }}></div>
+      </div>
     </div>
   );
 };

@@ -7,3 +7,11 @@ td {
   padding: 10;
   border: 1px solid lightgray;
 }
+
+.wrapper{
+  width: 40%;
+  margin: 0 auto;
+  margin-top: 5vh;
+  border: 1px solid black;
+  padding: 4px;
+}
