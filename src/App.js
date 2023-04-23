@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 const makeTableData = (w, h) => {
@@ -11,24 +11,36 @@ const makeTableData = (w, h) => {
 const ROW_HEIGHT = 40;
 const VISIBLE_ROWS = 3;
 
-const getTopHeight = () => {
-  return 0;
-};
-const getBottomHeight = () => {
-  return 0;
-};
-
-
 const App = () => {
+  const [start, setStart] = useState(0);
   const data = makeTableData(5, 10);
+  const ref = useRef();
+  const getTopHeight = () => {
+    return ROW_HEIGHT * start;
+  };
+
+  const getBottomHeight = () => {
+    return ROW_HEIGHT * (data.length - (start + VISIBLE_ROWS));
+  };
+
+  const onScroll = () => {};
+
+  useEffect(() => {
+    ref.current.addEventListener("scroll", onScroll);
+    return () => {
+      ref.current.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   return (
-    <div style={{ height: ROW_HEIGHT * VISIBLE_ROWS + 1, overflow: "auto" }}>
+    <div
+      style={{ height: ROW_HEIGHT * VISIBLE_ROWS + 1, overflow: "auto" }}
+      ref={ref}
+    >
       <div style={{ height: getTopHeight() }}></div>
-
       <table>
         <tbody>
-          {data.map((row, rowIndex) => (
+          {data.slice(start, start + VISIBLE_ROWS).map((row, rowIndex) => (
             <tr key={`row-${rowIndex}`} style={{ height: ROW_HEIGHT }}>
               {row.map((text, colIndex) => (
                 <td key={`col-${colIndex}`}>{text}</td>
