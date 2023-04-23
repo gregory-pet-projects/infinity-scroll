@@ -13,7 +13,7 @@ const VISIBLE_ROWS = 3;
 
 const App = () => {
   const [start, setStart] = useState(0);
-  const data = makeTableData(5, 10);
+  const data = makeTableData(5, 10_000);
   const ref = useRef();
   const getTopHeight = () => {
     return ROW_HEIGHT * start;
@@ -23,7 +23,9 @@ const App = () => {
     return ROW_HEIGHT * (data.length - (start + VISIBLE_ROWS));
   };
 
-  const onScroll = () => {};
+  const onScroll = (e) => {
+    setStart(Math.floor(e.target.scrollTop / ROW_HEIGHT));
+  };
 
   useEffect(() => {
     ref.current.addEventListener("scroll", onScroll);
@@ -40,10 +42,10 @@ const App = () => {
       <div style={{ height: getTopHeight() }}></div>
       <table>
         <tbody>
-          {data.slice(start, start + VISIBLE_ROWS).map((row, rowIndex) => (
-            <tr key={`row-${rowIndex}`} style={{ height: ROW_HEIGHT }}>
+          {data.slice(start, start + VISIBLE_ROWS + 1).map((row, rowIndex) => (
+            <tr key={`row-${start + rowIndex}`} style={{ height: ROW_HEIGHT }}>
               {row.map((text, colIndex) => (
-                <td key={`col-${colIndex}`}>{text}</td>
+                <td key={`col-${start + colIndex}`}>{text}</td>
               ))}
             </tr>
           ))}
